@@ -33,19 +33,20 @@ class Solution{
     public:
         int LessThanN(vector<vector<int> > &led, int N){
             int K = led.size();
-            vector<int> vec = FindDigit(led[0]);
-            if(vec.empty() || vec.front() != 0) return 0;
+            //vector<int> vec = FindDigit(led[0]);
+            //if(vec.empty() || vec.front() != 0) return 0;
             vector<vector<int> > vecVect;
-            for(int i=1; i<K; i++){
-                vec = FindDigit(led[i]);
+            for(int i=0; i<K; i++){
+                vector<int> vec = FindDigit(led[i]);
                 if(vec.empty()) return 0;
                 vecVect.push_back(vec);
             }
             vector<int> countVec1,countVec2;
             int wholeNum = 0;
             bool highPos = false;
-            for(int i=0; i<K-1; i++){
-                int order = pow(10,K-i-2);
+            for(int i=0; i<K; i++){
+                int order = pow(10,K-i-1);
+                int digitNum = vecVect[i].size();
                 while(!vecVect[i].empty()){
                     if(wholeNum+vecVect[i].back() * order >N){
                         vecVect[i].pop_back();
@@ -53,30 +54,30 @@ class Solution{
                     else
                         break;
                 }
-                if(!vecVect[i].empty()) {
-                    if(!highPos)
-                    {
+                //if(!vecVect[i].empty()) {
+                    if(!highPos){
                         highPos = true;
-                        countVec1.push_back(vecVect[i].size()-1);
-                        countVec2.push_back(1);
+                        countVec1.push_back((vecVect[i].size()>1) ? (vecVect[i].size()-1):0);
+                        countVec2.push_back(vecVect[i].empty()? 0 : 1);
                         wholeNum += vecVect[i].back() * order;
                     }
                     else{
-                        countVec1.push_back(vecVect[i].size());
-                        countVec2.push_back(vecVect[i].size()-1);
+                        countVec1.push_back(digitNum);
+                        countVec2.push_back((vecVect[i].size()>1) ? (vecVect[i].size()-1):0);
                         wholeNum += vecVect[i].back() * order;
                     }
-                }
+                //}
+                //else
+                    //return 0;
             }
             int counter1 = 1, counter2 = 1;
             for(int i=0; i<countVec1.size(); i++){
-                if(countVec1.size() != 0)
-                    counter1 *= countVec1[i];
+                counter1 *= countVec1[i];
             }
             for(int i=0; i<countVec2.size(); i++){
                 counter2 *= countVec2[i];
             }
-            if(wholeNum < N) counter2 ++;
+            //if(wholeNum < N) counter2 ++;
             return counter1 + counter2;
         }
 
