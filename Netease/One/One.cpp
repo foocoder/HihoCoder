@@ -56,10 +56,12 @@ class Solution{
                 }
                 //if(!vecVect[i].empty()) {
                     if(!highPos){
-                        highPos = true;
                         countVec1.push_back((vecVect[i].size()>1) ? (vecVect[i].size()-1):0);
                         countVec2.push_back(vecVect[i].empty()? 0 : 1);
                         wholeNum += vecVect[i].back() * order;
+                        if(countVec1.back()){
+                            highPos = true;
+                        }
                     }
                     else{
                         countVec1.push_back(digitNum);
@@ -71,13 +73,18 @@ class Solution{
                     //return 0;
             }
             int counter1 = 1, counter2 = 1;
-            for(int i=0; i<countVec1.size(); i++){
+            int i=0;
+            for(i=0; i<countVec1.size(); i++){
+                if(countVec1[i])
+                    break;
+            }
+            for(i; i<countVec1.size(); i++){
                 counter1 *= countVec1[i];
             }
             for(int i=0; i<countVec2.size(); i++){
                 counter2 *= countVec2[i];
             }
-            //if(wholeNum < N) counter2 ++;
+            if(!counter2 && wholeNum < N) counter2 ++;
             return counter1 + counter2;
         }
 
