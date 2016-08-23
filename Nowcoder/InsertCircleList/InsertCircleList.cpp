@@ -86,10 +86,10 @@ public:
 };
 int main(int argc, char *argv[])
 {
-    vector<int> A{5,3,7,4};
+    vector<int> A{2,2,2,2,};
     vector<int> B{2,3,1,0};
     InsertValue ci;
-    ListNode * head = ci.insert( A, B, 10 );
+    ListNode * head = ci.insert( A, B, 2 );
     ListNode * ptr = head;
     while( ptr->next != head ){
         cout<< ptr->val<< " ";
